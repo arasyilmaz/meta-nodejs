@@ -19,7 +19,6 @@ NPM_FLAGS ?= ""
 
 NPM_FLAGS_append_class-nativesdk = " --unsafe-perm"
 
-
 def npm_get_version():
     import os
     return os.popen("npm --v").read().split('.')
@@ -44,7 +43,7 @@ oe_runnpm() {
 	echo "/.*/" >> "${NPM_IGNORE}"
 
 	mkdir -p "${NPM_HOME_DIR}"
-	
+
 	export NPM_VERSION="$(${NPM} --v)"
 	export NPM_CACHE_CMD="clean"
 	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
@@ -60,7 +59,7 @@ oe_runnpm() {
 	bbnote ${NPM} --registry=${NPM_REGISTRY} ${ARCH_FLAGS} ${NPM_FLAGS} "$@"
 
 	export JOBS="${@oe.utils.cpu_count()}"
-	
+
 	export http_proxy="${http_proxy}"
 	export https_proxy="${https_proxy}"
 	export no_proxy="${no_proxy}"
@@ -91,10 +90,10 @@ NPM_FLAGS_NATIVE_append_class-nativesdk = " --unsafe-perm"
 oe_runnpm_native() {
 
 	if [ "${NPM_ARCH_NATIVE}" != "allarch" ]; then
-                ARCH_FLAGS="--arch=${NPM_ARCH_NATIVE} --target_arch=${NPM_ARCH_NATIVE}"
-        else
-                ARCH_FLAGS=""
-        fi
+        ARCH_FLAGS="--arch=${NPM_ARCH_NATIVE} --target_arch=${NPM_ARCH_NATIVE}"
+    else
+        ARCH_FLAGS=""
+    fi
 
 	echo "/temp/" >> "${NPM_IGNORE}"
 	echo "/pseudo/" >> "${NPM_IGNORE}"
@@ -119,10 +118,9 @@ oe_runnpm_native() {
 	bbnote NPM registry: ${NPM_REGISTRY}
 	bbnote NPM workdir .npmignore: ${NPM_IGNORE}
 
-
 	bbnote ${NPM_NATIVE} --registry=${NPM_REGISTRY} ${ARCH_FLAGS} ${NPM_FLAGS_NATIVE} "$@"
 
-	export JOBS=${@oe.utils.cpu_count()}
+	export JOBS="${@oe.utils.cpu_count()}"
 
 	export http_proxy="${http_proxy}"
 	export https_proxy="${https_proxy}"
@@ -134,7 +132,7 @@ oe_runnpm_native() {
 		NPM_CACHE_CMD="verify"
 	fi
 
-	${NPM_NATIVE} cache $NPM_CACHE_CMD || die "oe_runnpm_native failed (cache clean)"
+	${NPM_NATIVE} cache $NPM_CACHE_CMD || die "oe_runnpm_native failed (cache $NPM_CACHE_CMD)"
 
 	LD="${NPM_LD_NATIVE}" ${NPM_NATIVE} --registry=${NPM_REGISTRY} ${ARCH_FLAGS} ${NPM_FLAGS_NATIVE} "$@" || die "oe_runnpm_native failed (install)"
 
