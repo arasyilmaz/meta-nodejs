@@ -62,8 +62,8 @@ do_compile () {
 }
 
 do_install () {
-  rm -rf ${exec_prefix}/lib/node_modules/npm
-  rm -rf ${bindir}/npm
+  rm -rf ${D}${exec_prefix}/lib/node_modules/npm
+  rm -rf ${D}${bindir}/npm
   oe_runmake install DESTDIR="${D}"
 }
 
