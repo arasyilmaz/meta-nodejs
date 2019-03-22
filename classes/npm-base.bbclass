@@ -42,7 +42,7 @@ oe_runnpm() {
 	mkdir -p "${NPM_HOME_DIR}"
 
 	export NPM_VERSION="$(${NPM} --v)"
-	export NPM_CACHE_CMD="clean"
+	export NPM_CACHE_CMD="clean --force"
 	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
 	export NPM_CONFIG_DEV="false"
 
@@ -104,7 +104,7 @@ oe_runnpm_native() {
 	mkdir -p "${NPM_HOME_DIR_NATIVE}"
 
 	export NPM_VERSION="$(${NPM} --v)"
-	export NPM_CACHE_CMD="clean"
+	export NPM_CACHE_CMD="clean --force"
 	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR_NATIVE}"
 	export NPM_CONFIG_DEV="false"
 
